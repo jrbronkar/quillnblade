@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public TMP_InputField inputText;
     TMP_Text player_output;
     TMP_Text npc_output;
+    string conversation = "The following is a conversation with a bartender in medieval times. The bartender is kindly and wants to help you.\n\nHuman: \"Hi, who are you?\"\nBartender: \"I am Solomon, from Dorn. How can I be of service?\"\n\nHuman: \"What do you know about the murder?\"\n\nBartender: \"Not much, only that a werewolf was involved, now if you don't mind, I've got customers to attend to.\"\n\nHuman: ";
 
     // Start is called before the first frame update
     void Start()
@@ -39,11 +40,11 @@ public class GameManager : MonoBehaviour
     }
     private IEnumerator GetNPCResponse(string input)
     {
-        Debug.Log("Entered");
+        Debug.Log(conversation);
         var dataToPost = new PostData()
         { 
             model = "text-davinci-002", 
-            prompt =  "The following is a conversation with a bartender in medieval times. The bartender is kindly and wants to help you.\n\nHuman: \"Hi, who are you?\"\nBartender: \"I am Solomon, from Dorn. How can I be of service?\"\n\nHuman: " + input , 
+            prompt = conversation + input,
             temperature = 0.7, 
             max_tokens = 256, 
             top_p = 1, 
@@ -57,6 +58,7 @@ public class GameManager : MonoBehaviour
         Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(postRequest.downloadHandler.text);
         //Root deserializedPostData = JsonUtility.FromJson<Root>(postRequest.downloadHandler.text);
         npc_output.text = myDeserializedClass.choices[0].text;
+        conversation = conversation + input + npc_output.text + "\n\nHuman: ";
     }
 
     private UnityWebRequest CreateRequest(string path, RequestType type = RequestType.GET, object data = null) {
@@ -69,7 +71,7 @@ public class GameManager : MonoBehaviour
 
         request.downloadHandler = new DownloadHandlerBuffer();
         request.SetRequestHeader("Content-Type", "application/json");
-        request.SetRequestHeader("Authorization", "Bearer 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");
+        request.SetRequestHeader("Authorization", "Bearer <PUT_SK_KEY_HERE>");
 
         return request;
     }

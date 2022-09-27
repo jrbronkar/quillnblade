@@ -38,6 +38,7 @@ ExportedObj/
 *.suo
 *.tmp
 *.user
+*.DS_Store
 *.userprefs
 *.pidb
 *.booproj

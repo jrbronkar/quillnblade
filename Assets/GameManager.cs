@@ -15,13 +15,22 @@ public class GameManager : MonoBehaviour
     public TMP_InputField inputText;
     TMP_Text player_output;
     TMP_Text npc_output;
-    string conversation = "The following is a conversation with a bartender in medieval times. The bartender is kindly and wants to help you.\n\nHuman: \"Hi, who are you?\"\nBartender: \"I am Solomon, from Dorn. How can I be of service?\"\n\nHuman: \"What do you know about the murder?\"\n\nBartender: \"Not much, only that a werewolf was involved, now if you don't mind, I've got customers to attend to.\"\n\nHuman: ";
+
+    public string option;
+    string conversation;
+
+   
 
     // Start is called before the first frame update
     void Start()
     {
         player_output = PLAYER_outputPanel.GetComponent<TextMeshProUGUI>();
         npc_output =  NPC_outputPanel.GetComponent<TextMeshProUGUI>();
+        if (option == "wizard") {
+            conversation = "The following is a conversation with a wizard in medieval times. The wizard is kindly and polite and wants to help you.\n\nHuman: \"Hi, who are you?\"\nWizard: \"I am Gandalf the Wise. And who might you be?\"\n\nHuman: \"Why am I here?\"\n\nWizard: \"To rescue the princess, of course! Now off you go!\"\n\nHuman: ";
+        }else{
+            conversation = "The following is a conversation with a bartender in medieval times. The bartender is kindly and wants to help you.\n\nHuman: \"Hi, who are you?\"\nBartender: \"I am Solomon, from Dorn. How can I be of service?\"\n\nHuman: \"What do you know about the murder?\"\n\nBartender: \"Not much, only that a werewolf was involved, now if you don't mind, I've got customers to attend to.\"\n\nHuman: ";
+        }
     }
 
     // Update is called once per frame
@@ -71,7 +80,7 @@ public class GameManager : MonoBehaviour
 
         request.downloadHandler = new DownloadHandlerBuffer();
         request.SetRequestHeader("Content-Type", "application/json");
-        request.SetRequestHeader("Authorization", "Bearer <PUT_SK_KEY_HERE>");
+        request.SetRequestHeader("Authorization", "Bearer <>");
 
         return request;
     }
